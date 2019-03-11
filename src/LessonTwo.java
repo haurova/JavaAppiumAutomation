@@ -100,6 +100,20 @@ public class LessonTwo
                 "Can't find article 'Tea Party Movement'",
                 15
         );
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/search_close_btn']"),
+                "Cannot find X to cancel search",
+                5
+        );
+
+        /* Ищу изображение-плейсхолдер, отображающееся на пустой странице поиска */
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/search_empty_image']"),
+                "The search is not empty",
+                15
+        );
+
     }
 
 
