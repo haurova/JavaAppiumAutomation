@@ -38,26 +38,68 @@ public class LessonTwo
     }
 
 
+//    @Test
+//    public void exerciseTwo()
+//    {
+//        /* На моём устройстве постоянно показывается онбординг, поэтому приходится каждый раз его пропускать */
+//        waitForElementAndClick(
+//                    By.xpath("//*[contains(@text, 'Skip')]"),
+//                    "Cannot find 'Skip' button",
+//                    5
+//            );
+//
+//        waitForElementAndClick(
+//                    By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+//                    "Cannot find search input",
+//                    5
+//            );
+//        waitForElementPresent(
+//                By.xpath("//*[contains(@text,'Search…')]"),
+//                "Cannot find text 'Search...'",
+//                5
+//                );
+//    }
+
     @Test
-    public void exerciseTwo()
+    public void exerciseThree()
     {
         /* На моём устройстве постоянно показывается онбординг, поэтому приходится каждый раз его пропускать */
         waitForElementAndClick(
-                    By.xpath("//*[contains(@text, 'Skip')]"),
-                    "Cannot find 'Skip' button",
-                    5
-            );
+                By.xpath("//*[contains(@text, 'Skip')]"),
+                "Cannot find 'Skip' button",
+                5
+        );
 
         waitForElementAndClick(
-                    By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
-                    "Cannot find search input",
-                    5
-            );
-        waitForElementPresent(
-                By.xpath("//*[contains(@text,'Search…')]"),
-                "Cannot find text 'Search...'",
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find search input",
                 5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Tea",
+                "Cannot find search input",
+                5
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/search_results_container']//*[@text='Drink made from infusing boiling water with the leaves of the tea plant']"),
+                "Can't find article 'Tea'",
+                15
                 );
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/search_results_container']//*[@text='Person who helps others to acquire knowledge, competences or values']"),
+                "Can't find article 'Teacher'",
+                15
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/search_results_container']//*[@text='American political movement']"),
+                "Can't find article 'Tea Party Movement'",
+                15
+        );
     }
 
 
@@ -76,5 +118,13 @@ public class LessonTwo
         element.click();
         return element;
     }
+
+    private WebElement waitForElementAndSendKeys(By by, String value, String error_message, long timeoutInSeconds)
+    {
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+        element.sendKeys(value);
+        return element;
+    }
+
 
 }
