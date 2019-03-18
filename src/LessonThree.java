@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 public class LessonThree
 {
@@ -40,8 +41,7 @@ public class LessonThree
     }
 
     /** Ex5: Тест: сохранение двух статей */
-
-     @Test
+    @Test
     public void saveTwoArticlesAndDeleteOne()
     {
         String name_of_first_article = "Foals (band)";
@@ -204,6 +204,52 @@ public class LessonThree
 
     }
 
+    /** Ex6: Тест: assert title */
+    @Test
+
+    public void testAssertTitle()
+    {
+        String name_of_article = "Foals (band)";
+
+        /* пропуск онбординга и поиск статьи */
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Skip')]"),
+                "Cannot find 'Skip' button",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find search input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Foals",
+                "Cannot find search input",
+                5
+        );
+
+        /* Открытие статьи и быстрая проверка на наличие тайтла. Падает, потому что тайтл не успевает загрузиться */
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/search_results_container']//*[@text='"+ name_of_article +"']"),
+                "Cannot find 'Foals (band)' topic searching by Foals",
+                15
+        );
+
+        int amount_of_titles_on_the_page = getAmountOfElements(
+                By.xpath("//*[@resource-id='heading_0']")
+        );
+
+        Assert.assertFalse(
+                "No article title found",
+                amount_of_titles_on_the_page == 0
+        );
+    }
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
     {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
@@ -253,6 +299,12 @@ public class LessonThree
     {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         return element.getAttribute(attribute);
+    }
+
+    private int getAmountOfElements(By by)
+    {
+        List elements = driver.findElements(by);
+        return ((List) elements).size();
     }
 
 }
