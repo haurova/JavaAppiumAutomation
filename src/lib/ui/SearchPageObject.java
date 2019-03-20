@@ -13,7 +13,8 @@ public class SearchPageObject extends MainPageObject
         SEARCH_INPUT = "//*[contains(@text,'Search…')]",
         SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/search_results_container']//*[@text='{SUBSTRING}']",
         SEARCH_CANCEL_BUTTON = "//*[@resource-id='org.wikipedia:id/search_close_btn']",
-        SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']//*[@class='android.view.ViewGroup']";
+        SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']//*[@class='android.view.ViewGroup']",
+        NO_RESULTS_PLACEHOLDER = "//*[@resource-id='org.wikipedia:id/search_empty_image']";
 
 
 
@@ -86,4 +87,9 @@ public class SearchPageObject extends MainPageObject
         return this.getAmountOfElements(By.xpath(SEARCH_RESULT_ELEMENT));
 
      }
+
+    public void waitForNoResultsPlaceholderImage()
+    {
+        this.waitForElementPresent(By.xpath(NO_RESULTS_PLACEHOLDER), "Search is not empty or there is no placeholder image displayed");
+    }
 }

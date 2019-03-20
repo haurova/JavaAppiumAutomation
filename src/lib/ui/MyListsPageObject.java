@@ -8,7 +8,8 @@ public class MyListsPageObject extends MainPageObject
 {
     public static final String
             FOLDER_BY_NAME_TML = "//android.widget.TextView[@text='{FOLDER_NAME}']",
-            ARTICLE_BY_TITLE_TML = "//android.widget.TextView[@text='{TITLE}']";
+            ARTICLE_BY_TITLE_TML = "//android.widget.TextView[@text='{TITLE}']",
+            ARTICLE_ID = "org.wikipedia:id/page_list_item_title";
 
     private static String getFolderXpathByName(String name_of_folder)
     {
@@ -65,6 +66,16 @@ public class MyListsPageObject extends MainPageObject
                 "Cannot find saved article"
         );
         this.waitForArticleToDissapearByTitle(article_title);
+    }
+
+    public String getTitleOfTheArticleFromTheList()
+    {
+        return this.waitForElementAndGetAttribute(
+                By.id(ARTICLE_ID),
+                "text",
+                "Cannot find title of article",
+                15
+        );
     }
 
 

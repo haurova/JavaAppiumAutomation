@@ -15,8 +15,8 @@ public class ArticlePageObject extends MainPageObject
         CREATE_NEW_LIST_NAME_FIELD = "//*[@resource-id='org.wikipedia:id/text_input']",
         CREATE_NEW_LIST_OK_BUTTON = "//*[@resource-id='android:id/button1']",
         BACK_BUTTON = "//android.widget.ImageButton[@content-desc='Navigate up']",
-        NO_THANKS_BUTTON_SYNC_POPUP = "//*[@resource-id='android:id/button2']";
-
+        NO_THANKS_BUTTON_SYNC_POPUP = "//*[@resource-id='android:id/button2']",
+        ARTICLE_TITLE = "//*[@resource-id='heading_0']";
 
     public ArticlePageObject(AppiumDriver driver)
     {
@@ -39,7 +39,7 @@ public class ArticlePageObject extends MainPageObject
         this.swipeUpToFindElement(By.xpath(FOOTER_ELEMENT), "Cannot find the end of article", 20);
     }
 
-    public void addArticleToMyList(String name_of_folder)
+    public void addArticleToNewList(String name_of_folder)
     {
         this.waitForElementAndClick(
                 By.xpath(READING_LIST_BUTTON),
@@ -73,6 +73,21 @@ public class ArticlePageObject extends MainPageObject
         );
     }
 
+    public void addArticleToExistingList(String name_of_folder)
+    {
+        this.waitForElementAndClick(
+                By.xpath(READING_LIST_BUTTON),
+                "Cannot find button 'Save to reading list'",
+                5
+        );
+
+        this.waitForElementAndClick(
+                By.xpath("//*[@text='"+ name_of_folder +"']"),
+                "Cannot find '" + name_of_folder + "' list",
+                5
+        );
+    }
+
     public void closeArticle()
     {
         this.waitForElementAndClick(
@@ -88,7 +103,8 @@ public class ArticlePageObject extends MainPageObject
         );
     }
 
-
-
-
+    public int getAmountOfTitlesOnThePage()
+    {
+        return this.getAmountOfElements(By.xpath(ARTICLE_TITLE));
+    }
 }

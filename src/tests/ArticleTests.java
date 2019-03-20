@@ -3,7 +3,6 @@ package tests;
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ArticleTests extends CoreTestCase {
@@ -21,7 +20,7 @@ public class ArticleTests extends CoreTestCase {
 
         String article_title = ArticlePageObject.getArticleTitle();
 
-        Assert.assertEquals(
+        assertEquals(
                 "We see unexpected title!",
                 "Java (programming language)",
                 article_title
@@ -42,5 +41,30 @@ public class ArticleTests extends CoreTestCase {
         ArticlePageObject.waitForTitleElement();
         ArticlePageObject.swipeToFooter();
 
+    }
+
+    /** Ex6: Тест: assert title */
+    @Test
+
+    public void testAssertTitle()
+    {
+        String name_of_article = "Foals (band)";
+
+        /* Пропуск онбординга и поиск статьи */
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
+        SearchPageObject.skipOnboarding();
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Foals");
+
+        /* Открытие статьи и быстрая проверка на наличие тайтла. Падает, потому что тайтл не успевает загрузиться */
+        SearchPageObject.clickbyArticleWithSubstring("Foals (band)");
+
+        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+
+        assertFalse(
+                "No article title found",
+                ArticlePageObject.getAmountOfTitlesOnThePage() == 0
+        );
     }
 }

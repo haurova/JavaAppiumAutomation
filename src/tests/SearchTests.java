@@ -52,4 +52,21 @@ public class SearchTests extends CoreTestCase
                 amount_of_search_results > 0
         );
     }
+
+    /** Ex3: Тест: отмена поиска */
+    @Test
+    public void testSearchCancellation()
+    {
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
+        SearchPageObject.skipOnboarding();
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Tea");
+        SearchPageObject.waitForSearchResult("Drink made from infusing boiling water with the leaves of the tea plant");
+        SearchPageObject.waitForSearchResult("Person who helps others to acquire knowledge, competences or values");
+        SearchPageObject.waitForSearchResult("American political movement");
+        SearchPageObject.clickCancelSearch();
+        SearchPageObject.waitForNoResultsPlaceholderImage();
+
+    }
 }
