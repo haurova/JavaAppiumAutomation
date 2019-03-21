@@ -1,7 +1,6 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 
 public class SearchPageObject extends MainPageObject
@@ -14,8 +13,8 @@ public class SearchPageObject extends MainPageObject
         SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/search_results_container']//*[@text='{SUBSTRING}']",
         SEARCH_CANCEL_BUTTON = "//*[@resource-id='org.wikipedia:id/search_close_btn']",
         SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']//*[@class='android.view.ViewGroup']",
-        NO_RESULTS_PLACEHOLDER = "//*[@resource-id='org.wikipedia:id/search_empty_image']";
-
+        NO_RESULTS_PLACEHOLDER = "//*[@resource-id='org.wikipedia:id/search_empty_image']",
+        SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TML = "//android.widget.TextView[@text='{TITLE}']/following-sibling::android.widget.TextView[@text='{DESCRIPTION}']/..";
 
 
     public SearchPageObject(AppiumDriver driver)
@@ -28,6 +27,13 @@ public class SearchPageObject extends MainPageObject
     private static String getSearchResultElement(String subsctring)
     {
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", subsctring);
+    }
+
+    private static String getSearchResultElementbyTitleAndDescription(String title, String description)
+    {
+        return SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TML
+                .replace("{TITLE}", title)
+                .replace("{DESCRIPTION}", description);
     }
     /* TEMPLATE METHODS */
 
@@ -68,6 +74,14 @@ public class SearchPageObject extends MainPageObject
     {
         String search_result_xpath = getSearchResultElement(substring);
         this.waitForElementPresent(By.xpath(search_result_xpath), "Cannot find search result with substring" + substring);
+    }
+
+    public void waitForElementByTitleAndDescription(String title, String description)
+    {
+        String search_result_xpath = getSearchResultElementbyTitleAndDescription(title, description);
+        this.waitForElementPresent(
+                By.xpath(search_result_xpath),
+                "Cannot find search result with title '" + title + "' " + "and description '" + description + "'");
     }
 
     public void clickbyArticleWithSubstring(String substring)
