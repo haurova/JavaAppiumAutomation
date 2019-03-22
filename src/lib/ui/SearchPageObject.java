@@ -1,20 +1,19 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.By;
 
 public class SearchPageObject extends MainPageObject
 {
 
     private static final String
-        SKIP_BUTTON_ONBOARDING_INIT_ELEMENT = "//*[contains(@text, 'Skip')]",
-        SEARCH_INIT_ELEMENT = "//*[contains(@text, 'Search Wikipedia')]",
-        SEARCH_INPUT = "//*[contains(@text,'Search…')]",
-        SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/search_results_container']//*[@text='{SUBSTRING}']",
-        SEARCH_CANCEL_BUTTON = "//*[@resource-id='org.wikipedia:id/search_close_btn']",
-        SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']//*[@class='android.view.ViewGroup']",
-        NO_RESULTS_PLACEHOLDER = "//*[@resource-id='org.wikipedia:id/search_empty_image']",
-        SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TML = "//android.widget.TextView[@text='{TITLE}']/following-sibling::android.widget.TextView[@text='{DESCRIPTION}']/..";
+        SKIP_BUTTON_ONBOARDING_INIT_ELEMENT = "xpath://*[contains(@text, 'Skip')]",
+        SEARCH_INIT_ELEMENT = "xpath://*[contains(@text, 'Search Wikipedia')]",
+        SEARCH_INPUT = "xpath://*[contains(@text,'Search…')]",
+        SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://*[@resource-id='org.wikipedia:id/search_results_container']//*[@text='{SUBSTRING}']",
+        SEARCH_CANCEL_BUTTON = "xpath://*[@resource-id='org.wikipedia:id/search_close_btn']",
+        SEARCH_RESULT_ELEMENT = "xpath://*[@resource-id='org.wikipedia:id/search_results_list']//*[@class='android.view.ViewGroup']",
+        NO_RESULTS_PLACEHOLDER = "xpath://*[@resource-id='org.wikipedia:id/search_empty_image']",
+        SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TML = "xpath://android.widget.TextView[@text='{TITLE}']/following-sibling::android.widget.TextView[@text='{DESCRIPTION}']/..";
 
 
     public SearchPageObject(AppiumDriver driver)
@@ -39,71 +38,71 @@ public class SearchPageObject extends MainPageObject
 
     public void skipOnboarding()
     {
-        this.waitForElementAndClick(By.xpath(SKIP_BUTTON_ONBOARDING_INIT_ELEMENT), "Cannot find 'Skip' button", 5);
+        this.waitForElementAndClick(SKIP_BUTTON_ONBOARDING_INIT_ELEMENT, "Cannot find 'Skip' button", 5);
     }
 
     public void initSearchInput()
     {
-        this.waitForElementAndClick(By.xpath(SEARCH_INIT_ELEMENT), "Cannot find and click search init elements", 5);
-        this.waitForElementPresent(By.xpath(SEARCH_INIT_ELEMENT), "Cannot find search input after clicking on it");
+        this.waitForElementAndClick(SEARCH_INIT_ELEMENT, "Cannot find and click search init elements", 5);
+        this.waitForElementPresent(SEARCH_INIT_ELEMENT, "Cannot find search input after clicking on it");
 
     }
 
     public void typeSearchLine(String search_line)
     {
-        this.waitForElementAndSendKeys(By.xpath(SEARCH_INPUT), search_line, "Cannot find search input to type",5);
+        this.waitForElementAndSendKeys(SEARCH_INPUT, search_line, "Cannot find search input to type",5);
 
     }
 
     public void waitForCancelButtonAppear()
     {
-     this.waitForElementPresent(By.xpath(SEARCH_CANCEL_BUTTON), "Cannot find 'X' button", 5);
+     this.waitForElementPresent(SEARCH_CANCEL_BUTTON, "Cannot find 'X' button", 5);
     }
 
     public void waitForCancelButtonDisappear()
     {
-        this.waitForElementNotPresent(By.xpath(SEARCH_CANCEL_BUTTON), "'X' button still displayed", 5);
+        this.waitForElementNotPresent(SEARCH_CANCEL_BUTTON, "'X' button still displayed", 5);
     }
 
     public void clickCancelSearch()
     {
-        this.waitForElementAndClick(By.xpath(SEARCH_CANCEL_BUTTON), "Cannot find and click 'X' button", 5);
+        this.waitForElementAndClick(SEARCH_CANCEL_BUTTON, "Cannot find and click 'X' button", 5);
     }
 
     public void waitForSearchResult(String substring)
     {
         String search_result_xpath = getSearchResultElement(substring);
-        this.waitForElementPresent(By.xpath(search_result_xpath), "Cannot find search result with substring" + substring);
+        this.waitForElementPresent(search_result_xpath, "Cannot find search result with substring" + substring);
     }
 
     public void waitForElementByTitleAndDescription(String title, String description)
     {
         String search_result_xpath = getSearchResultElementbyTitleAndDescription(title, description);
         this.waitForElementPresent(
-                By.xpath(search_result_xpath),
+                search_result_xpath,
                 "Cannot find search result with title '" + title + "' " + "and description '" + description + "'");
     }
 
     public void clickbyArticleWithSubstring(String substring)
     {
         String search_result_xpath = getSearchResultElement(substring);
-        this.waitForElementAndClick(By.xpath(search_result_xpath), "Cannot find and click search result with substring" + substring, 10);
+        this.waitForElementAndClick(search_result_xpath, "Cannot find and click search result with substring" + substring, 10);
     }
 
     public int getAmountOfFoundArticles()
     {
         this.waitForElementPresent(
-                By.xpath(SEARCH_RESULT_ELEMENT),
+                SEARCH_RESULT_ELEMENT,
                 "Cannot find anything by request",
                 15
         );
 
-        return this.getAmountOfElements(By.xpath(SEARCH_RESULT_ELEMENT));
+        return this.getAmountOfElements(SEARCH_RESULT_ELEMENT);
 
      }
 
     public void waitForNoResultsPlaceholderImage()
     {
-        this.waitForElementPresent(By.xpath(NO_RESULTS_PLACEHOLDER), "Search is not empty or there is no placeholder image displayed");
+        this.waitForElementPresent(NO_RESULTS_PLACEHOLDER, "Search is not empty or there is no placeholder image displayed");
     }
 }
