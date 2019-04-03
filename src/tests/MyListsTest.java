@@ -1,41 +1,66 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.ui.ArticlePageObject;
 import lib.ui.MyListsPageObject;
 import lib.ui.NavigationUI;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.MyListsPageObjectFactory;
+import lib.ui.factories.NavigationUIFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class MyListsTest extends CoreTestCase
 {
+    private static String name_of_folder = "Learning programming";
+
     @Test
     public void testSaveFirstArticleToMyList()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
 
-        SearchPageObject.skipOnboarding();
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
+
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.clickbyArticleWithSubstring("Object-oriented programming language");
 
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
-
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         ArticlePageObject.waitForTitleElement();
 
-        String article_title = ArticlePageObject.getArticleTitle();
-        String name_of_folder = "Learning programming";
+        if(Platform.getInstance().isAndroid()){
+            ArticlePageObject.addArticleToNewList(name_of_folder);
+        } else {
+            ArticlePageObject.addArticlesToMySaved();
+        }
 
-        ArticlePageObject.addArticleToNewList(name_of_folder);
         ArticlePageObject.closeArticle();
+        if(Platform.getInstance().isAndroid()) {
+            ArticlePageObject.closeSyncPopup();
+        }
 
-        NavigationUI NavigationUI = new NavigationUI(driver);
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
 
         NavigationUI.clickMyLists();
 
-        MyListsPageObject MyListPageObject = new MyListsPageObject(driver);
-        MyListPageObject.openFolderByName(name_of_folder);
-        MyListPageObject.swipeByArticleToDelete(article_title);
+        if(Platform.getInstance().isIOS()) {
+            ArticlePageObject.closeSyncPopup();
+        }
+
+        MyListsPageObject MyListPageObject = MyListsPageObjectFactory.get(driver);
+
+        if(Platform.getInstance().isAndroid()){
+            MyListPageObject.openFolderByName(name_of_folder);
+        }
+
+        if(Platform.getInstance().isAndroid()){
+            String article_title = ArticlePageObject.getArticleTitle();
+            MyListPageObject.swipeByArticleToDelete(article_title);
+        } else {
+            String article_title = MyListPageObject.getTitleOfTheArticleFromTheList();
+            MyListPageObject.swipeByArticleToDelete(article_title);
+        }
 
     }
 
@@ -48,7 +73,7 @@ public class MyListsTest extends CoreTestCase
         String name_of_folder = "Indie-rock bands";
 
         /* Пропуск онбординга и поиск первой статьи */
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.skipOnboarding();
         SearchPageObject.initSearchInput();
@@ -56,7 +81,7 @@ public class MyListsTest extends CoreTestCase
         SearchPageObject.clickbyArticleWithSubstring("Foals (band)");
 
         /* Создание нового списка и добавление первой статьи в него */
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
 
         ArticlePageObject.addArticleToNewList(name_of_folder);
         ArticlePageObject.closeArticle();
@@ -69,11 +94,11 @@ public class MyListsTest extends CoreTestCase
         ArticlePageObject.closeArticle();
 
         /* Переход в списки для чтения и открытие созданного списка */
-        NavigationUI NavigationUI = new NavigationUI(driver);
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
 
         NavigationUI.clickMyLists();
 
-        MyListsPageObject MyListsPageObject = new MyListsPageObject(driver);
+        MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
 
         MyListsPageObject.openFolderByName(name_of_folder);
 

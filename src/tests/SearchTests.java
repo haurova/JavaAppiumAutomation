@@ -2,6 +2,7 @@ package tests;
 
 import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 
@@ -11,9 +12,9 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testSearch()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
-        SearchPageObject.skipOnboarding();
+        //SearchPageObject.skipOnboarding();
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.waitForSearchResult("Object-oriented programming language");
@@ -24,7 +25,7 @@ public class SearchTests extends CoreTestCase
     public void testCancelSearch()
     {
 
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.skipOnboarding();
         SearchPageObject.initSearchInput();
@@ -38,7 +39,7 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testAmountOfNotEmptySearch()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.skipOnboarding();
         SearchPageObject.initSearchInput();
@@ -58,7 +59,7 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testSearchCancellation()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.skipOnboarding();
         SearchPageObject.initSearchInput();
@@ -74,7 +75,7 @@ public class SearchTests extends CoreTestCase
     /** Ex9: Рефакторинг темплейта */
     @Test
     public void test() {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.skipOnboarding();
         SearchPageObject.initSearchInput();

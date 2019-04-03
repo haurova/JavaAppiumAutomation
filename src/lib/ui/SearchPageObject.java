@@ -1,19 +1,21 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.CoreTestCase;
+import lib.Platform;
 
-public class SearchPageObject extends MainPageObject
+abstract public class SearchPageObject extends MainPageObject
 {
 
-    private static final String
-        SKIP_BUTTON_ONBOARDING_INIT_ELEMENT = "xpath://*[contains(@text, 'Skip')]",
-        SEARCH_INIT_ELEMENT = "xpath://*[contains(@text, 'Search Wikipedia')]",
-        SEARCH_INPUT = "xpath://*[contains(@text,'Search…')]",
-        SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://*[@resource-id='org.wikipedia:id/search_results_container']//*[@text='{SUBSTRING}']",
-        SEARCH_CANCEL_BUTTON = "xpath://*[@resource-id='org.wikipedia:id/search_close_btn']",
-        SEARCH_RESULT_ELEMENT = "xpath://*[@resource-id='org.wikipedia:id/search_results_list']//*[@class='android.view.ViewGroup']",
-        NO_RESULTS_PLACEHOLDER = "xpath://*[@resource-id='org.wikipedia:id/search_empty_image']",
-        SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TML = "xpath://android.widget.TextView[@text='{TITLE}']/following-sibling::android.widget.TextView[@text='{DESCRIPTION}']/..";
+     protected static String
+        SKIP_BUTTON_ONBOARDING_INIT_ELEMENT,
+        SEARCH_INIT_ELEMENT,
+        SEARCH_INPUT,
+        SEARCH_RESULT_BY_SUBSTRING_TPL,
+        SEARCH_CANCEL_BUTTON,
+        SEARCH_RESULT_ELEMENT,
+        NO_RESULTS_PLACEHOLDER,
+        SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TML;
 
 
     public SearchPageObject(AppiumDriver driver)
@@ -39,6 +41,7 @@ public class SearchPageObject extends MainPageObject
     public void skipOnboarding()
     {
         this.waitForElementAndClick(SKIP_BUTTON_ONBOARDING_INIT_ELEMENT, "Cannot find 'Skip' button", 5);
+
     }
 
     public void initSearchInput()
@@ -86,7 +89,7 @@ public class SearchPageObject extends MainPageObject
     public void clickbyArticleWithSubstring(String substring)
     {
         String search_result_xpath = getSearchResultElement(substring);
-        this.waitForElementAndClick(search_result_xpath, "Cannot find and click search result with substring" + substring, 10);
+        this.waitForElementAndClick(search_result_xpath, "Cannot find and click search result with substring '" + substring + "'", 10);
     }
 
     public int getAmountOfFoundArticles()

@@ -5,12 +5,13 @@ import io.appium.java_client.AppiumDriver;
 public class WelcomePageObject extends MainPageObject
 {
     private static final String
-        STEP_LEARN_MORE_LINK = "Learn more about Wikipedia",
-        STEP_WAIT_FOR_NEW_WAY_TO_EXPLORE_TEXT = "New ways to explore",
-        STEP_ADD_OR_EDIT_PREFERRED_LANG_LINK = "Add or edit preferred languages",
-        STEP_LEARN_MORE_ABOUT_DATA_COLLECTED = "Learn more about data collected",
-        NEXT_BUTTON = "Next",
-        GET_STARTED_BUTTON = "Get started";
+        STEP_LEARN_MORE_LINK = "id:Learn more about Wikipedia",
+        STEP_WAIT_FOR_NEW_WAY_TO_EXPLORE_TEXT = "id:New ways to explore",
+        STEP_ADD_OR_EDIT_PREFERRED_LANG_LINK = "id:Add or edit preferred languages",
+        STEP_LEARN_MORE_ABOUT_DATA_COLLECTED = "id:Learn more about data collected",
+        NEXT_BUTTON = "id:Next",
+        GET_STARTED_BUTTON = "id:Get started",
+        SKIP_BUTTON = "id:Skip";
 
     public WelcomePageObject (AppiumDriver driver)
     {
@@ -45,6 +46,11 @@ public class WelcomePageObject extends MainPageObject
     public  void clickGetStartedButton()
     {
         this.waitForElementAndClick(GET_STARTED_BUTTON, "Cannot find 'Get started' button", 10);
+    }
+
+    public void clickSkip()
+    {
+        this.waitForElementAndClick(SKIP_BUTTON, "Cannot find 'Skip' button on iOS", 5);
     }
 
 }

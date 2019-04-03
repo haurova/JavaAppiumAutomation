@@ -1,13 +1,15 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 
-public class MyListsPageObject extends MainPageObject
+abstract public class MyListsPageObject extends MainPageObject
 {
-    public static final String
-            FOLDER_BY_NAME_TML = "xpath://android.widget.TextView[@text='{FOLDER_NAME}']",
-            ARTICLE_BY_TITLE_TML = "xpath://android.widget.TextView[@text='{TITLE}']",
-            ARTICLE_ID = "id:org.wikipedia:id/page_list_item_title";
+    protected static String
+            FOLDER_BY_NAME_TML,
+            ARTICLE_BY_TITLE_TML,
+            ARTICLE_ID;
+
 
     private static String getFolderXpathByName(String name_of_folder)
     {
@@ -63,17 +65,30 @@ public class MyListsPageObject extends MainPageObject
                 article_title_xpath,
                 "Cannot find saved article"
         );
+        if(Platform.getInstance().isIOS()){
+            this.clickElementToTheRightUpperCorner(article_title_xpath, "Cannot find saved article");
+
+        }
         this.waitForArticleToDissapearByTitle(article_title);
     }
 
     public String getTitleOfTheArticleFromTheList()
     {
-        return this.waitForElementAndGetAttribute(
-                ARTICLE_ID,
-                "text",
-                "Cannot find title of article",
-                15
-        );
+        if (Platform.getInstance().isAndroid()) {
+            return this.waitForElementAndGetAttribute(
+                    ARTICLE_ID,
+                    "text",
+                    "Cannot find title of article",
+                    15
+            );
+        } else {
+            return this.waitForElementAndGetAttribute(
+                    ARTICLE_ID,
+                    "name",
+                    "Cannot find title of article",
+                    15
+            );
+        }
     }
 
 

@@ -1,21 +1,22 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import org.openqa.selenium.WebElement;
 
-public class ArticlePageObject extends MainPageObject
+abstract public class ArticlePageObject extends MainPageObject
 {
-    private static final String
-        TITLE = "xpath://*[@resource-id='heading_0']/android.view.View[1]",
-        FOOTER_ELEMENT = "xpath://*[@text='View page in browser']",
-        READING_LIST_BUTTON = "xpath://android.widget.ImageView[@content-desc='Add this article to a reading list']",
-        ONBOARDING_GOT_IT_BUTTON = "xpath://*[@resource-id='org.wikipedia:id/onboarding_button']",
-        CREATE_NEW_LIST_BUTTON = "xpath://*[@resource-id='org.wikipedia:id/create_button']",
-        CREATE_NEW_LIST_NAME_FIELD = "xpath://*[@resource-id='org.wikipedia:id/text_input']",
-        CREATE_NEW_LIST_OK_BUTTON = "xpath://*[@resource-id='android:id/button1']",
-        BACK_BUTTON = "xpath://android.widget.ImageButton[@content-desc='Navigate up']",
-        NO_THANKS_BUTTON_SYNC_POPUP = "xpath://*[@resource-id='android:id/button2']",
-        ARTICLE_TITLE = "xpath://*[@resource-id='heading_0']";
+    protected static String
+        TITLE,
+        FOOTER_ELEMENT,
+        READING_LIST_BUTTON,
+        ONBOARDING_GOT_IT_BUTTON,
+        CREATE_NEW_LIST_BUTTON,
+        CREATE_NEW_LIST_NAME_FIELD,
+        CREATE_NEW_LIST_OK_BUTTON,
+        BACK_BUTTON,
+        NO_THANKS_BUTTON_SYNC_POPUP,
+        ARTICLE_TITLE;
 
     public ArticlePageObject(AppiumDriver driver)
     {
@@ -27,15 +28,24 @@ public class ArticlePageObject extends MainPageObject
         return this.waitForElementPresent(TITLE, "Cannot find article title", 15);
     }
 
+
     public String getArticleTitle()
     {
         WebElement title_element = waitForTitleElement();
-        return title_element.getAttribute("text");
+        if (Platform.getInstance().isAndroid()) {
+            return title_element.getAttribute("text");
+        } else {
+            return title_element.getAttribute("name");
+        }
     }
 
     public void swipeToFooter()
     {
-        this.swipeUpToFindElement(FOOTER_ELEMENT, "Cannot find the end of article", 20);
+        if(Platform.getInstance().isAndroid()) {
+            this.swipeUpToFindElement(FOOTER_ELEMENT, "Cannot find the end of article", 40);
+        } else {
+            this.swipeUpTillElementAppear(FOOTER_ELEMENT, "Cannot find the end of article", 40);
+        }
     }
 
     public void addArticleToNewList(String name_of_folder)
@@ -87,6 +97,10 @@ public class ArticlePageObject extends MainPageObject
         );
     }
 
+    public void addArticlesToMySaved() {
+        this.waitForElementAndClick(READING_LIST_BUTTON, "Cannot find 'Save to reading list' button",10);
+    }
+
     public void closeArticle()
     {
         this.waitForElementAndClick(
@@ -94,13 +108,18 @@ public class ArticlePageObject extends MainPageObject
                 "Cannot find 'Back' button",
                 5
         );
+    }
 
+    public void closeSyncPopup()
+    {
         this.waitForElementAndClick(
                 NO_THANKS_BUTTON_SYNC_POPUP,
-                "Cannot press 'No thanks' button in sync pop-up",
+                "Cannot close sync pop-up",
                 5
         );
     }
+
+
 
     public int getAmountOfTitlesOnThePage()
     {

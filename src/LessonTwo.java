@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -38,27 +39,27 @@ public class LessonTwo
     }
 
 
-//    @Test
-//    public void exerciseTwo()
-//    {
-//        /* На моём устройстве постоянно показывается онбординг, поэтому приходится каждый раз его пропускать */
-//        waitForElementAndClick(
-//                    By.xpath("//*[contains(@text, 'Skip')]"),
-//                    "Cannot find 'Skip' button",
-//                    5
-//            );
-//
-//        waitForElementAndClick(
-//                    By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
-//                    "Cannot find search input",
-//                    5
-//            );
-//        waitForElementPresent(
-//                By.xpath("//*[contains(@text,'Search…')]"),
-//                "Cannot find text 'Search...'",
-//                5
-//                );
-//    }
+    @Test
+    public void exerciseTwo()
+    {
+        /* На моём устройстве постоянно показывается онбординг, поэтому приходится каждый раз его пропускать */
+        waitForElementAndClick(
+                    By.xpath("//*[contains(@text, 'Skip')]"),
+                    "Cannot find 'Skip' button",
+                    5
+            );
+
+        waitForElementAndClick(
+                    By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                    "Cannot find search input",
+                    5
+            );
+        waitForElementPresent(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Cannot find text 'Search...'",
+                5
+                );
+    }
 
     @Test
     public void exerciseThree()
@@ -115,7 +116,6 @@ public class LessonTwo
         );
 
     }
-
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
     {
