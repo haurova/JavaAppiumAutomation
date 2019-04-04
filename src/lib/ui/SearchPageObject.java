@@ -15,7 +15,8 @@ abstract public class SearchPageObject extends MainPageObject
         SEARCH_CANCEL_BUTTON,
         SEARCH_RESULT_ELEMENT,
         NO_RESULTS_PLACEHOLDER,
-        SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TML;
+        SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TML,
+        CLEAR_BUTTON;
 
 
     public SearchPageObject(AppiumDriver driver)
@@ -70,6 +71,11 @@ abstract public class SearchPageObject extends MainPageObject
     public void clickCancelSearch()
     {
         this.waitForElementAndClick(SEARCH_CANCEL_BUTTON, "Cannot find and click 'X' button", 5);
+    }
+
+    public void clearSearch()
+    {
+        this.waitForElementAndClick(CLEAR_BUTTON, "Cannot find tiny 'x' button", 10);
     }
 
     public void waitForSearchResult(String substring)

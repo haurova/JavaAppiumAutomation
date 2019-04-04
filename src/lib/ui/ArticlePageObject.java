@@ -16,7 +16,11 @@ abstract public class ArticlePageObject extends MainPageObject
         CREATE_NEW_LIST_OK_BUTTON,
         BACK_BUTTON,
         NO_THANKS_BUTTON_SYNC_POPUP,
-        ARTICLE_TITLE;
+        ARTICLE_TITLE,
+        ADD_TO_READING_LIST_BUTTON,
+        NAME_OF_EXISTING_FOLDER_TML,
+        TOOLBAR;
+
 
     public ArticlePageObject(AppiumDriver driver)
     {
@@ -82,19 +86,35 @@ abstract public class ArticlePageObject extends MainPageObject
         );
     }
 
+    private static String getListXpathByName(String name_of_folder)
+    {
+        return NAME_OF_EXISTING_FOLDER_TML.replace("{FOLDER_NAME}", name_of_folder);
+    }
+
+    public void addArticleToExistingReadingList(String name_of_folder)
+    {
+        String name_of_folder_xpath = getListXpathByName(name_of_folder);
+        this.waitForElementAndClick(name_of_folder_xpath, "Cannot find reading list with name '" + name_of_folder + "' in the list", 10);
+    }
+
     public void addArticleToExistingList(String name_of_folder)
     {
         this.waitForElementAndClick(
                 READING_LIST_BUTTON,
                 "Cannot find button 'Save to reading list'",
-                5
+                15
         );
 
-        this.waitForElementAndClick(
-                "xpath://*[@text='"+ name_of_folder +"']",
-                "Cannot find '" + name_of_folder + "' list",
-                5
-        );
+        if(Platform.getInstance().isIOS()){
+            this.clickAboveTheElementInTheMiddle(TOOLBAR, "Cannot find the button");
+            this.addArticleToExistingReadingList(name_of_folder);
+        } else {
+            this.waitForElementAndClick(
+                    NAME_OF_EXISTING_FOLDER_TML,
+                    "Cannot find '" + name_of_folder + "' list",
+                    5
+            );
+        }
     }
 
     public void addArticlesToMySaved() {
@@ -119,10 +139,9 @@ abstract public class ArticlePageObject extends MainPageObject
         );
     }
 
-
-
     public int getAmountOfTitlesOnThePage()
     {
         return this.getAmountOfElements(ARTICLE_TITLE);
     }
+
 }

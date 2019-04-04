@@ -149,6 +149,18 @@ public class MainPageObject
 
     }
 
+    public void clickAboveTheElementInTheMiddle(String locator, String error_message)
+    {
+        WebElement element = this.waitForElementPresent(locator, error_message);
+        int left_x = element.getLocation().getX();
+        int right_x = left_x + element.getSize().getWidth();
+        int middle_x = (left_x + right_x) / 2;
+        int upper_y = element.getLocation().getY();
+
+        TouchAction action = new TouchAction(driver);
+        action.tap(middle_x, (upper_y - 20)).perform();
+    }
+
     public void swipeElementToLeft(String locator, String error_message)
     {
         WebElement element = waitForElementPresent(

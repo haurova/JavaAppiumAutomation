@@ -12,6 +12,9 @@ public class iOSArticlePageObject extends ArticlePageObject
         READING_LIST_BUTTON = "id:Save for later";
         BACK_BUTTON = "id:Back";
         NO_THANKS_BUTTON_SYNC_POPUP = "id:places auth close";
+        ADD_TO_READING_LIST_BUTTON = "xpath://XCUIElementTypeImage[@name='add-to-list']/../../../..";
+        NAME_OF_EXISTING_FOLDER_TML = "xpath://XCUIElementTypeLink[@name='{FOLDER_NAME}']";
+        TOOLBAR = "xpath://XCUIElementTypeToolbar";
 
     }
 

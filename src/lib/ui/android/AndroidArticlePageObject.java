@@ -18,6 +18,7 @@ public class AndroidArticlePageObject extends ArticlePageObject
         BACK_BUTTON = "xpath://android.widget.ImageButton[@content-desc='Navigate up']";
         NO_THANKS_BUTTON_SYNC_POPUP = "xpath://*[@resource-id='android:id/button2']";
         ARTICLE_TITLE = "xpath://*[@resource-id='heading_0']";
+        NAME_OF_EXISTING_FOLDER_TML = "xpath://*[@text='{FOLDER_NAME}']";
     }
 
     public AndroidArticlePageObject(AppiumDriver driver)

@@ -2,13 +2,18 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import lib.Platform;
+import org.openqa.selenium.WebElement;
 
 abstract public class MyListsPageObject extends MainPageObject
 {
     protected static String
             FOLDER_BY_NAME_TML,
             ARTICLE_BY_TITLE_TML,
-            ARTICLE_ID;
+            ARTICLE_ID,
+            READING_LISTS_BUTTON,
+            ADD_READING_LIST_BUTTON,
+            READING_LIST_NAME_FIELD,
+            CREATE_READING_LIST_BUTTON;
 
 
     private static String getFolderXpathByName(String name_of_folder)
@@ -18,8 +23,8 @@ abstract public class MyListsPageObject extends MainPageObject
 
     private static String getSavedArticleXpathByTitle(String article_title)
     {
-        return ARTICLE_BY_TITLE_TML.replace("{TITLE}", article_title);
-    }
+            return ARTICLE_BY_TITLE_TML.replace("{TITLE}", article_title);
+        }
 
     public MyListsPageObject(AppiumDriver driver)
     {
@@ -67,7 +72,6 @@ abstract public class MyListsPageObject extends MainPageObject
         );
         if(Platform.getInstance().isIOS()){
             this.clickElementToTheRightUpperCorner(article_title_xpath, "Cannot find saved article");
-
         }
         this.waitForArticleToDissapearByTitle(article_title);
     }
@@ -89,6 +93,18 @@ abstract public class MyListsPageObject extends MainPageObject
                     15
             );
         }
+    }
+
+    public void openReadingLists()
+    {
+        this.waitForElementAndClick(READING_LISTS_BUTTON, "Cannot find 'Reading lists' button", 10);
+    }
+
+    public void addNewReadingList(String name_of_folder)
+    {
+        this.waitForElementAndClick(ADD_READING_LIST_BUTTON, "Cannot find '+' button", 10);
+        this.waitForElementAndSendKeys(READING_LIST_NAME_FIELD, name_of_folder, "Cannot find 'Reading list name' field", 10);
+        this.waitForElementAndClick(CREATE_READING_LIST_BUTTON, "Cannot find 'Create reading list' button", 10);
     }
 
 
